@@ -1,0 +1,22 @@
+name: Release
+on:
+  push:
+    tags: ['[0-9]+.[0-9]+.[0-9]+']
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - run: sed -i "s/{{version}}/${GITHUB_REF_NAME}/g" module.json
+      - run: zip -r world-validator.zip module.json src/ languages/ LICENSE README.md CHANGELOG.md
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
+          body: |
+            **Manifest:** `https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/module.json`
+          files: |
+            world-validator.zip
+            module.json
