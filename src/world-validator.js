@@ -58,6 +58,17 @@ console.warn = (...a) => {
 // ---------------------------------------------------------------------------
 
 function registerSettings() {
+  game.settings.registerMenu(MODULE_ID, "launcher", {
+    name: "Open World Validator",
+    label: "Open",
+    hint: "Launch the Tiny's World Validator panel.",
+    icon: "fas fa-magnifying-glass",
+    type: class extends Application {
+      render() { injectStyles(); new WorldValidator().render({ force: true }); }
+    },
+    restricted: true,
+  });
+
   const defs = [
     { key: "logLevel",  name: "Log Level", type: String,  default: "warn", config: true,
       choices: { error:"Error", warn:"Warn", info:"Info", debug:"Debug" } },
