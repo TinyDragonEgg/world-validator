@@ -1,6 +1,6 @@
 {
   "id": "world-validator",
-  "title": "World Validator",
+  "title": "Tiny's World Validator",
   "description": "GM-only Foundry VTT v13 / dnd5e validator. Validates JSON against your live schema, browses all valid attribute paths and enums, generates a Claude Code context pack, and monitors other modules for errors.",
   "version": "{{version}}",
   "compatibility": { "minimum": "13", "verified": "13" },

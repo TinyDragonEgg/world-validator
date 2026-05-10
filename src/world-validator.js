@@ -682,7 +682,7 @@ class WorldValidator extends ApplicationV2 {
   static DEFAULT_OPTIONS = {
     id: "world-validator",
     classes: ["world-validator"],
-    window: { title: "World Validator", resizable: true },
+    window: { title: "Tiny's World Validator", resizable: true },
     position: { width: 920, height: 720 },
   };
 
