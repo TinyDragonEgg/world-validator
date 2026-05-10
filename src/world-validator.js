@@ -1192,7 +1192,7 @@ Hooks.once("ready", () => {
   injectStyles();
 
   game.modules.get(MODULE_ID).api = {
-    open:             () => { injectStyles(); new WorldValidator().render(true); },
+    open:             () => { injectStyles(); new WorldValidator().render({ force: true }); },
     validateJSON,
     generateContextPack,
     buildErrorReport,
@@ -1206,12 +1206,15 @@ Hooks.once("ready", () => {
 
   Hooks.on("renderSettings", (app, html) => {
     if (!game.user.isGM) return;
-    const section = html.querySelector("#settings-game") ?? html.querySelector(".settings-list");
-    if (!section) return;
+    const section = html.querySelector("#settings-game")
+      ?? html.querySelector(".settings-list")
+      ?? html.querySelector("section")
+      ?? html;
     const btn = document.createElement("button");
-    btn.textContent = "World Validator";
+    btn.type = "button";
+    btn.textContent = "Tiny's World Validator";
     btn.style.cssText = "margin-top:6px;width:100%;";
-    btn.addEventListener("click", () => { injectStyles(); new WorldValidator().render(true); });
+    btn.addEventListener("click", () => { injectStyles(); new WorldValidator().render({ force: true }); });
     section.appendChild(btn);
   });
 
