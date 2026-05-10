@@ -676,17 +676,15 @@ Be concise. Group by module. Flag if uncertain about attribution.`;
 // ApplicationV2 UI
 // ---------------------------------------------------------------------------
 
-const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
+const { ApplicationV2 } = foundry.applications.api;
 
-class WorldValidator extends HandlebarsApplicationMixin(ApplicationV2) {
+class WorldValidator extends ApplicationV2 {
   static DEFAULT_OPTIONS = {
     id: "world-validator",
     classes: ["world-validator"],
     window: { title: "World Validator", resizable: true },
     position: { width: 920, height: 720 },
   };
-
-  static PARTS = { main: { template: null } };
 
   constructor() {
     super({});
