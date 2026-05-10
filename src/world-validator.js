@@ -1196,29 +1196,27 @@ function injectStyles() {
 // Boot
 // ---------------------------------------------------------------------------
 
+// Sidebar hook registered at module scope — never blocked by init errors
+Hooks.on("renderSettings", (app, html) => {
+  if (!game.user?.isGM) return;
+  const el = (html instanceof HTMLElement) ? html : (html[0] ?? html);
+  if (!el?.querySelector) return;
+  const section = el.querySelector("#settings-game")
+    ?? el.querySelector(".settings-list")
+    ?? el.querySelector("section")
+    ?? el;
+  if (section.querySelector(".wv-sidebar-btn")) return;
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "wv-sidebar-btn";
+  btn.textContent = "Tiny's World Validator";
+  btn.style.cssText = "margin-top:6px;width:100%;";
+  btn.addEventListener("click", () => { injectStyles(); new WorldValidator().render({ force: true }); });
+  section.appendChild(btn);
+});
+
 Hooks.once("init", () => {
-  registerSettings();
-
-  // Sidebar Settings tab — inject button every time the tab renders
-  Hooks.on("renderSettings", (app, html) => {
-    if (!game.user?.isGM) return;
-    // v13 may pass jQuery; normalise to a raw HTMLElement
-    const el = (html instanceof HTMLElement) ? html : (html[0] ?? html);
-    if (!el?.querySelector) return;
-    const section = el.querySelector("#settings-game")
-      ?? el.querySelector(".settings-list")
-      ?? el.querySelector("section")
-      ?? el;
-    if (section.querySelector(".wv-sidebar-btn")) return; // already injected
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "wv-sidebar-btn";
-    btn.textContent = "Tiny's World Validator";
-    btn.style.cssText = "margin-top:6px;width:100%;";
-    btn.addEventListener("click", () => { injectStyles(); new WorldValidator().render({ force: true }); });
-    section.appendChild(btn);
-  });
-
+  try { registerSettings(); } catch(e) { console.error("[World Validator] registerSettings failed:", e); }
   WV.log("info", "Init", "Module init.");
 });
 
